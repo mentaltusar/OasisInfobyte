@@ -4,7 +4,7 @@ KEY = "ce7d0359bba74835b15387d1f908be45"
 
 
 def get_zip(zipcode):
-    url = f"http://api.openweathermap.org/geo/1.0/zip?zip={zipcode}&appid={KEY}"
+    url = f"https://api.openweathermap.org/data/2.5/weather?zip={zipcode},in&appid={KEY}"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -39,10 +39,11 @@ def display(weather_data):
 
 def main():
     zipcode = input("Enter the ZIP code: ")
+
     location = get_zip(zipcode)
     if location:
-        lat = location['lat']
-        lon = location['lon']
+        lat = location['coord']['lat']
+        lon = location['coord']['lon']
         weather_data = get_weather(lat, lon)
         display(weather_data)
     else:
